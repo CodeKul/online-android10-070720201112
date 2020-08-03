@@ -2,4 +2,4 @@ include ':constraintlayout'
 include ':mylibrary'
 include ':uiapp'
 include ':app'
-rootProject.name = "online-android10-070720201112"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            rootProject.name = "online-android10-070720201112"                                                          
