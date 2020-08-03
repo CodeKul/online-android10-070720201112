@@ -12,8 +12,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         layoutItem.setOnClickListener {
+
+            val chatBundle = Bundle()
+            chatBundle.putString("from", txtNm.text.toString())
+
             val cls: Class<ChatActivity> = ChatActivity::class.java
             val chatIntent = Intent(this@MainActivity, cls)
+            chatIntent.putExtras(chatBundle)
             startActivity(chatIntent)
         }
     }
