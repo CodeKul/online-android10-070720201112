@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_chat.*
 
 class ChatActivity : AppCompatActivity() {
@@ -15,6 +16,9 @@ class ChatActivity : AppCompatActivity() {
 
        val chatBundle = intent?.extras
         val from = chatBundle?.getString(MainActivity.KEY_FROM)
+
+        val btok = resources.getString(R.string.btOk)
+        val cmpRd = ContextCompat.getColor(this, R.color.cmpRd)
 
         supportActionBar?.title = from ?: "ConstraintLayout"
 

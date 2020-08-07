@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ConstraintLayout</string>
+    <string name ="txtHnt">Sample Text</string>
+    <string name="btOk">Okay</string>
 </resources>
