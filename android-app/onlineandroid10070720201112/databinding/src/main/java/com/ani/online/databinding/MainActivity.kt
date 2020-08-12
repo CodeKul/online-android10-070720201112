@@ -12,15 +12,25 @@ class MainActivity : AppCompatActivity() {
     // 2. MVP
     // 3. MVVM
 
-    private val viewModel by lazy { ViewModelProvider(this).get(LoginViewModel::class.java) }
+    private lateinit var os : String
+    private val viewModel by lazy {
+        ViewModelProvider(this)
+            .get(LoginViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_main)
 
-        val binding: ActivityMainBinding = DataBindingUtil.setContentView(
-            this, R.layout.activity_main)
+//        val binding: ActivityMainBinding = DataBindingUtil.setContentView(
+//            this, R.layout.activity_main)
+//        binding.lifecycleOwner = this
+//        binding.lgnVm = viewModel
 
-
+        DataBindingUtil.setContentView<ActivityMainBinding>(
+            this, R.layout.activity_main)?.apply {
+            lifecycleOwner = this@MainActivity
+            lgnVm = viewModel
+        }
     }
 }

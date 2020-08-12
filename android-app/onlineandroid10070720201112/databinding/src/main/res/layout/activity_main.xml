@@ -24,7 +24,7 @@
             android:inputType="textEmailAddress"
             app:layout_constraintBottom_toTopOf="@+id/editTextPhone"
             app:layout_constraintEnd_toEndOf="@+id/editTextPhone"
-            android:text="@{lgnVm.eml}"/>
+            android:text="@={lgnVm.eml}"/>
 
         <EditText
             android:id="@+id/editTextPhone"
@@ -36,7 +36,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="@{lgnVm.phn}"/>
+            android:text="@={lgnVm.phn}"/>
 
         <Button
             android:id="@+id/button"
