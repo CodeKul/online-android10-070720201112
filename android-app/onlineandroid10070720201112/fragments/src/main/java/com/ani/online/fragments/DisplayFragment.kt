@@ -37,4 +37,8 @@ class DisplayFragment : Fragment() {
         Log.i("@ani","---> $$$ ${view?.findViewById<FrameLayout>(R.id.dispBlock)}")
         view?.setBackgroundColor(Color.argb(255, red, green , blue))
     }
+
+    fun getHtmlColorCode() : String  = ""
+
+    fun getRgbColorCode() : Color? = null
 }

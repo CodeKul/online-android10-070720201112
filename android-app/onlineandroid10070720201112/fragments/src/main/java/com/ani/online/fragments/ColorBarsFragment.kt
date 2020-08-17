@@ -29,7 +29,6 @@ class ColorBarsFragment : Fragment() {
     }
 
     fun emitColors(red : Int, green : Int, blue : Int) {
-//        Log.i("@ani", "Red $red, Green $green, Blue $blue")
         (activity as MainActivity).emitColorChange(red, green, blue)
     }
 
