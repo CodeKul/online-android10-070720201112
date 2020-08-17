@@ -29,7 +29,8 @@ class ColorBarsFragment : Fragment() {
     }
 
     fun emitColors(red : Int, green : Int, blue : Int) {
-
+//        Log.i("@ani", "Red $red, Green $green, Blue $blue")
+        (activity as MainActivity).emitColorChange(red, green, blue)
     }
 
     inner class MySeekListener : SeekBar.OnSeekBarChangeListener {
@@ -40,7 +41,7 @@ class ColorBarsFragment : Fragment() {
                     R.id.skRd -> emitColors(progress, skGr.progress, skBl.progress)
                     R.id.skGr -> emitColors(skRd.progress, progress, skBl.progress)
                     R.id.skBl -> emitColors(skRd.progress, skGr.progress, progress)
-                    else -> {}
+                    else -> { Log.i("@ani", "Else of When") }
                 }
             }
         }

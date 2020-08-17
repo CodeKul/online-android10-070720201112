@@ -2,6 +2,7 @@ package com.ani.online.fragments
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +26,15 @@ class DisplayFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<FrameLayout>(R.id.dispBlock).setBackgroundColor(Color.argb(255, 255, 89 , 125))
+        Log.i("@ani","---> ${view?.findViewById<FrameLayout>(R.id.dispBlock)}")
+        setNewColor(255, 206, 100)
+    }
+
+    fun setNewColor(red : Int, green : Int, blue : Int) {
+        Log.i("@ani", "Red $red, Green $green, Blue $blue")
+        Log.i("@ani", "$view")
+
+        Log.i("@ani","---> $$$ ${view?.findViewById<FrameLayout>(R.id.dispBlock)}")
+        view?.setBackgroundColor(Color.argb(255, red, green , blue))
     }
 }
