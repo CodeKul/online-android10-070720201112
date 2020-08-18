@@ -1,3 +1,4 @@
+include ':fragmentviewmodel'
 include ':fragments'
 include ':databinding'
 include ':constraintlayout'
