@@ -41,12 +41,13 @@ class MainActivity : AppCompatActivity() {
         })
 
         btSv.setOnClickListener {
+            Log.i("@ani", "${lvDs?.value}")
             val itm = PhoneItem(
                 etNum.text.toString(),
                 etNm.text.toString(),
                 "${System.currentTimeMillis()}"
             )
-            ds.add(itm)
+           lvDs.value?.add(itm)
         }
     }
 }
