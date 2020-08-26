@@ -2,6 +2,10 @@ package com.ani.online.recyclerview
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ani.online.recyclerview.adpater.PhoneAdapter
 import com.ani.online.recyclerview.adpater.PhoneItem
@@ -14,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val ds = arrayListOf<PhoneItem>()
-        ds.add(
+                ds.add(
             PhoneItem("96644654", "Android", "${System.currentTimeMillis()}")
         )
         ds.add(
@@ -24,8 +28,25 @@ class MainActivity : AppCompatActivity() {
             PhoneItem("65454768", "iOS", "${System.currentTimeMillis()}")
         )
 
-        val adapter = PhoneAdapter( this, ds )
+        val lvDs : MutableLiveData<ArrayList<PhoneItem>> = MutableLiveData()
+        lvDs.value = ds
+
+        val adapter = PhoneAdapter( this, lvDs.value ?: arrayListOf() )
         phoneList.layoutManager = LinearLayoutManager(this)
         phoneList.adapter = adapter
+
+        lvDs.observe(this, Observer {
+            Log.i("@ani", it.toString())
+            adapter.freshData(it)
+        })
+
+        btSv.setOnClickListener {
+            val itm = PhoneItem(
+                etNum.text.toString(),
+                etNm.text.toString(),
+                "${System.currentTimeMillis()}"
+            )
+            ds.add(itm)
+        }
     }
 }

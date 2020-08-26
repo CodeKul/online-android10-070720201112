@@ -16,7 +16,7 @@ data class PhoneItem(
 
 class PhoneAdapter(
     private val ctx : Context,
-    private val dataSource : List<PhoneItem>
+    private var dataSource : List<PhoneItem>
 
 ) : RecyclerView.Adapter<PhoneAdapter.PhoneViewHolder>() {
 
@@ -42,5 +42,10 @@ class PhoneAdapter(
         holder.name().text = dataSource[position].name
         holder.number().text = dataSource[position].number
         holder.created().text = dataSource[position].created
+    }
+
+    fun freshData(ds : List<PhoneItem>) {
+        this.dataSource = ds
+        notifyDataSetChanged()
     }
 }
