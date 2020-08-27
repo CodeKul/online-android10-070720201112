@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ani.online.broadcastreceivers">
+
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".DataActivity">
+            <intent-filter >
+                <action android:name="a.b.c"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="audio/mp3" android:scheme="http"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".AppSetting">
+            <intent-filter>
+                <action android:name="a.b.c" />
+                <action android:name="p.q.r" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

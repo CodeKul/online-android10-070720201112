@@ -1,3 +1,4 @@
+include ':broadcastreceivers'
 include ':recyclerview'
 include ':fragmentviewmodel'
 include ':fragments'
