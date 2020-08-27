@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ani.online.recyclerview.adpater.PhoneAdapter
 import com.ani.online.recyclerview.adpater.PhoneItem
@@ -32,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         lvDs.value = ds
 
         val adapter = PhoneAdapter( this, lvDs.value ?: arrayListOf() )
-        phoneList.layoutManager = LinearLayoutManager(this)
+        phoneList.layoutManager = GridLayoutManager(this, 2)
         phoneList.adapter = adapter
 
         lvDs.observe(this, Observer {
@@ -47,7 +48,7 @@ class MainActivity : AppCompatActivity() {
                 etNm.text.toString(),
                 "${System.currentTimeMillis()}"
             )
-           lvDs.value?.add(itm)
+          ds.add(itm)
         }
     }
 }
