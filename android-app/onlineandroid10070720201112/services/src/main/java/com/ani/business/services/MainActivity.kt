@@ -33,6 +33,11 @@ class MainActivity : AppCompatActivity() {
                     Log.i("@ani", "Connected to AppLocationService")
                     val lb = service as AppLocationService.LocalBinder
                     val appLocationService = lb.getService()
+                    appLocationService.setJustLocationChangedListener (object : JustLocationChangedListener {
+                        override fun justLocationChanged(cv: Int) {
+                            Log.i("@ani" , "CNT VAL -> $cv")
+                        }
+                    })
 
                     Log.i("@ani", "Count it ${appLocationService.cntVal}")
                 }

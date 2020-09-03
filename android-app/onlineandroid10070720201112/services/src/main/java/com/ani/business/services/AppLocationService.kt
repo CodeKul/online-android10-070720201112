@@ -17,6 +17,8 @@ class AppLocationService : Service() {
 
     var cntVal = 0
 
+    private var mListener : JustLocationChangedListener? = null
+
     override fun onBind(intent: Intent): IBinder = LocalBinder()
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -26,6 +28,7 @@ class AppLocationService : Service() {
                 Thread.sleep(1000)
 //                Log.i("@ani", "$i")
                 cntVal = i
+                mListener?.justLocationChanged(cntVal)
             }
         }.start()
 
@@ -61,5 +64,9 @@ class AppLocationService : Service() {
             return channelId
         }
         return ""
+    }
+
+    fun setJustLocationChangedListener(listener : JustLocationChangedListener) {
+       mListener = listener
     }
 }
