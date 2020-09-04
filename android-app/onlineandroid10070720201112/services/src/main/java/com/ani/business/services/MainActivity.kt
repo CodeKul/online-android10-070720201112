@@ -3,6 +3,7 @@ package com.ani.business.services
 import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
+import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
@@ -33,11 +34,12 @@ class MainActivity : AppCompatActivity() {
                     Log.i("@ani", "Connected to AppLocationService")
                     val lb = service as AppLocationService.LocalBinder
                     val appLocationService = lb.getService()
-                    appLocationService.setJustLocationChangedListener (object : JustLocationChangedListener {
-                        override fun justLocationChanged(cv: Int) {
-                            Log.i("@ani" , "CNT VAL -> $cv")
-                        }
-                    })
+//                    appLocationService.setJustLocationChangedListener (object : JustLocationChangedListener {
+//                        override fun justLocationChanged(loc : Location?) {
+//                            btnSt.text = "${loc?.latitude}, ${loc?.longitude}"
+//                        }
+//                    })
+                    appLocationService.cbFn =  { btnSt.text = "${it?.latitude}, ${it?.longitude}"  }
 
                     Log.i("@ani", "Count it ${appLocationService.cntVal}")
                 }

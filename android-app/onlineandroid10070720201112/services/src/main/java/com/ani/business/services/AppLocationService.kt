@@ -7,30 +7,49 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.location.Location
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
+import android.os.Looper
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import com.google.android.gms.location.*
 
 class AppLocationService : Service() {
 
     var cntVal = 0
 
-    private var mListener : JustLocationChangedListener? = null
+    private lateinit var client: FusedLocationProviderClient
+    private lateinit var locationCallback: LocationCallback
+    private lateinit var locationRequest: LocationRequest
+
+    //    private var mListener : JustLocationChangedListener? = null // java way
+    var cbFn: ((location: Location?) -> Unit)? = null // kotlins way
+
+    override fun onCreate() {
+        super.onCreate()
+
+        client = LocationServices.getFusedLocationProviderClient(this)
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(result: LocationResult?) {
+                super.onLocationResult(result)
+                //mListener?.justLocationChanged(result?.lastLocation)
+                cbFn?.invoke(result?.lastLocation)
+            }
+        }
+
+        locationRequest = LocationRequest()
+        locationRequest.interval = 1000;
+        locationRequest.fastestInterval = 1500;
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY;
+    }
 
     override fun onBind(intent: Intent): IBinder = LocalBinder()
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
-        Thread {
-            for ( i in 0 .. 1000) {
-                Thread.sleep(1000)
-//                Log.i("@ani", "$i")
-                cntVal = i
-                mListener?.justLocationChanged(cntVal)
-            }
-        }.start()
+        client.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
 
         notification()
 
@@ -38,7 +57,7 @@ class AppLocationService : Service() {
     }
 
     inner class LocalBinder : Binder() {
-        fun getService() : AppLocationService = this@AppLocationService
+        fun getService(): AppLocationService = this@AppLocationService
     }
 
     private fun notification() {
@@ -66,7 +85,7 @@ class AppLocationService : Service() {
         return ""
     }
 
-    fun setJustLocationChangedListener(listener : JustLocationChangedListener) {
-       mListener = listener
-    }
+//    fun setJustLocationChangedListener(listener : JustLocationChangedListener) {
+//       mListener = listener
+//    }
 }
