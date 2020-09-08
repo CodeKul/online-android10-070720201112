@@ -1,11 +1,13 @@
 package com.ani.business.services
 
+import android.Manifest
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Location
 import android.os.Binder
@@ -13,7 +15,9 @@ import android.os.Build
 import android.os.IBinder
 import android.os.Looper
 import android.util.Log
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import com.google.android.gms.location.*
 
 class AppLocationService : Service() {
@@ -48,10 +52,19 @@ class AppLocationService : Service() {
     override fun onBind(intent: Intent): IBinder = LocalBinder()
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        Log.i("@ani", "Service Started")
 
-        client.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
-
-        notification()
+        if( (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED)) {
+            Log.i("@ani", "Requesting location updates")
+            client.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
+            notification()
+        }
 
         return START_STICKY
     }
