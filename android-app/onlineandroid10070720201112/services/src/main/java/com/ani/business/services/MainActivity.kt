@@ -54,36 +54,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnSt.setOnClickListener {
-            bind(appLcInt)
+            startActivity(Intent(this, MapsActivity::class.java))
         }
 
         Log.i("@ani", "cntVal")
     }
 
-    private fun bind(appLcInt : Intent) {
-        bindService(
-            appLcInt,
-            object : ServiceConnection {
-                override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-                    Log.i("@ani", "Connected to AppLocationService")
-                    val lb = service as AppLocationService.LocalBinder
-                    val appLocationService = lb.getService()
-//                    appLocationService.setJustLocationChangedListener (object : JustLocationChangedListener {
-//                        override fun justLocationChanged(loc : Location?) {
-//                            btnSt.text = "${loc?.latitude}, ${loc?.longitude}"
-//                        }
-//                    })
-                    appLocationService.cbFn =  { btnSt.text = "${it?.latitude}, ${it?.longitude}"  }
 
-                    Log.i("@ani", "Count it ${appLocationService.cntVal}")
-                }
-
-                override fun onServiceDisconnected(name: ComponentName?) {
-                    Log.i("@ani", "Disconnected from AppLocationService")
-                }
-            },
-            BIND_AUTO_CREATE)
-    }
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
