@@ -1,3 +1,4 @@
+include ':storage'
 include ':services'
 include ':broadcastreceivers'
 include ':recyclerview'
