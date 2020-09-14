@@ -9,9 +9,24 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val prefs = AppPrefs(this)
-        prefs.writeData()
+//        val prefs = AppPrefs(this)
+//        prefs.writeData()
+//        prefs.readData()
 
-        prefs.readData()
+        val privateFiles = PrivateFiles(this)
+
+
+        privateFiles.fileSystemInfo()
+        privateFiles.writeToExternalPrivate()
+        privateFiles.readFromExternalPrivate()
+
+        //  /storage/emulated/0/Android/data/com.ani.app.storage/files/Download/my.txt -> writing file
+        // /storage/emulated/0/Android/data/com.ani.app.storage/files
+
+//        privateFiles.writePrivate()
+//        privateFiles.readPrivate()
+
+        //Home work - Signature Pad you need to build and store your signature as bitmap image.
+
     }
 }
