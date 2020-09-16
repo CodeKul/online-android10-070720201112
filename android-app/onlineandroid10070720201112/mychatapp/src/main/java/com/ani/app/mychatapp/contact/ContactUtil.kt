@@ -2,6 +2,7 @@ package com.ani.app.mychatapp.contact
 
 import android.content.Context
 import android.provider.ContactsContract
+
 data class Contact(
     val nm : String,
     val num : String
