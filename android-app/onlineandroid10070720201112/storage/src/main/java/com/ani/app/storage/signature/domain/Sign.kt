@@ -3,6 +3,7 @@ package com.ani.app.storage.signature.domain
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+// Homework - Signature Pad
 @Entity(tableName = "sign_user")
 data class Sign(
     @PrimaryKey

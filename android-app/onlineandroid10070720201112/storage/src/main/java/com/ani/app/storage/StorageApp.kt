@@ -10,4 +10,9 @@ class StorageApp : Application() {
             AppDb::class.java, "my-db"
         ).build()
     }
+
+    override fun onCreate() {
+        super.onCreate()
+        db.openHelper
+    }
 }

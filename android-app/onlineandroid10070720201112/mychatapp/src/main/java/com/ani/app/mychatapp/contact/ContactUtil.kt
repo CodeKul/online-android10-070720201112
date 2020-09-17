@@ -3,6 +3,11 @@ package com.ani.app.mychatapp.contact
 import android.content.Context
 import android.provider.ContactsContract
 
+
+// Home Work
+// Show contacts is recyclerview
+// Show all SMS in Recycler View
+
 data class Contact(
     val nm : String,
     val num : String

@@ -1,5 +1,6 @@
 package com.ani.app.mychatapp
 
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +13,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val conUt = ContactUtil(this)
-        val contacts = conUt.fetchContacts()
+//        val contacts = conUt.fetchContacts()
+
+        val cur = contentResolver.query(Uri.parse("content://com.ani.sign"), null, null, null, null)
+        cur?.let {
+            while (it.moveToNext()) {
+                val id = it.getLong(it.getColumnIndex("id"))
+                val name = it.getString(it.getColumnIndex("userName"))
+                Log.i("@ani", "Id $id, Name $name")
+            }
+            cur.close()
+        }
     }
 }

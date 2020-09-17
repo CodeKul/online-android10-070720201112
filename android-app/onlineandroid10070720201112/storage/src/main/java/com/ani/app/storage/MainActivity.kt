@@ -34,7 +34,12 @@ class MainActivity : AppCompatActivity() {
 
         val nm = "ani"
         val dt = System.currentTimeMillis()
-        val sign = Sign(1, nm, dt, File(filesDir.absolutePath, "$nm-$dt-sign.jpg").absolutePath)
+        val sign = Sign(
+            System.currentTimeMillis(),
+            nm,
+            dt,
+            File(filesDir.absolutePath, "$nm-$dt-sign.jpg").absolutePath
+        )
 
         Thread {
             (application as StorageApp).db.signDao().saveSignature(sign)
