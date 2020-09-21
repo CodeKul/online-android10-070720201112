@@ -47,6 +47,12 @@ class MainActivity : AppCompatActivity() {
             (application as StorageApp).db.signDao().listAllSigns().forEach {
                 Log.i("@ani", "Name - ${it.userName} File - ${it.signFilePath}")
             }
+        }.start() Thread {
+            (application as StorageApp).db.signDao().saveSignature(sign)
+
+            (application as StorageApp).db.signDao().listAllSigns().forEach {
+                Log.i("@ani", "Name - ${it.userName} File - ${it.signFilePath}")
+            }
         }.start()
     }
 }

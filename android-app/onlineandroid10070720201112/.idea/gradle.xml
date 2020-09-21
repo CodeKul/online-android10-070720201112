@@ -12,6 +12,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/async" />
             <option value="$PROJECT_DIR$/broadcastreceivers" />
             <option value="$PROJECT_DIR$/constraintlayout" />
             <option value="$PROJECT_DIR$/databinding" />
