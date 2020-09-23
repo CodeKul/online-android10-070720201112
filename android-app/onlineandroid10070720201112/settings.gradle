@@ -1,3 +1,4 @@
+include ':webservices'
 include ':async'
 include ':mychatapp'
 include ':storage'
