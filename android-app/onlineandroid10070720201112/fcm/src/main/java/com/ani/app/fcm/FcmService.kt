@@ -9,6 +9,7 @@ class FcmService: FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         super.onNewToken(token)
 
+        // post call for updating existing token
         Log.i("@ani", "New Token is $token")
     }
 
