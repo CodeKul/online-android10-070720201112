@@ -1,3 +1,4 @@
+include ':fcm'
 include ':webservices'
 include ':async'
 include ':mychatapp'

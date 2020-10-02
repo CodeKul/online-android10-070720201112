@@ -16,6 +16,7 @@
             <option value="$PROJECT_DIR$/broadcastreceivers" />
             <option value="$PROJECT_DIR$/constraintlayout" />
             <option value="$PROJECT_DIR$/databinding" />
+            <option value="$PROJECT_DIR$/fcm" />
             <option value="$PROJECT_DIR$/fragments" />
             <option value="$PROJECT_DIR$/fragmentviewmodel" />
             <option value="$PROJECT_DIR$/mychatapp" />
