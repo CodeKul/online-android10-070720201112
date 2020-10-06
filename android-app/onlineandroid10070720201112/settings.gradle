@@ -1,3 +1,4 @@
+include ':otochat'
 include ':mat-btm'
 include ':mat'
 include ':fcm'
