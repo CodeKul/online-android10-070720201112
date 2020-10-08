@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "961661076749",
+    "firebase_url": "https://oto-chat-72323.firebaseio.com",
+    "project_id": "oto-chat-72323",
+    "storage_bucket": "oto-chat-72323.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:961661076749:android:0b0b55e4de8953b5b5dc44",
+        "android_client_info": {
+          "package_name": "com.ani.app.otochat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "961661076749-5ndjt1u5fctqihsvirlfs0qonushmihn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXNvZCphg0xW8jPrjtpUj6rlBrdjs5v1o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "961661076749-5ndjt1u5fctqihsvirlfs0qonushmihn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

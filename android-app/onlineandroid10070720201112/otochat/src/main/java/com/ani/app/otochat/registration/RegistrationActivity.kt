@@ -32,6 +32,10 @@ class RegistrationActivity : AppCompatActivity() {
 
     private fun loadFragment(frag: Fragment) {
         // you need to complete the code
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.regFrm, frag)
+            .commit()
     }
 
     private fun startFriendsActivity() {
