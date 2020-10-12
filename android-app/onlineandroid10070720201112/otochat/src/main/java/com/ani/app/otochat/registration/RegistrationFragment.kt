@@ -1,16 +1,20 @@
 package com.ani.app.otochat.registration
 
+import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.ani.app.otochat.MainActivity
 import com.ani.app.otochat.R
 import com.ani.app.otochat.databinding.FragmentRegistrationBinding
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -43,8 +47,7 @@ class RegistrationFragment : Fragment() {
             param2 = it.getString(ARG_PARAM2)
         }
         auth = Firebase.auth
-        val currentUser = auth.currentUser
-        Log.i("@ani", "$currentUser")
+
     }
 
     override fun onCreateView(
@@ -54,14 +57,35 @@ class RegistrationFragment : Fragment() {
         // Inflate the layout for this fragment
 
         val binding : FragmentRegistrationBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_registration, container, false)
-        binding.lifecycleOwner = activity
+        binding.lifecycleOwner = activity // imp
         binding.vm = vm
 
-        vm.reg.observe( activity, Observer {
+        vm.reg.observe( viewLifecycleOwner /*imp*/, Observer {
             Log.i("@ani", "Registration Clicked")
+
+            val currentUser = auth.currentUser
+            if(currentUser == null) {
+                registerUser(vm.valueOf(vm.userName), vm.valueOf(vm.password))
+            }
+            Log.i("@ani", "$currentUser")
         })
 
         return binding.root
+    }
+
+    private fun registerUser(email : String, pass : String) {
+        val dialog = progressAlert()
+        auth.createUserWithEmailAndPassword(email, pass)
+            .addOnCompleteListener(activity as RegistrationActivity ) {
+            if(it.isSuccessful) {
+                val user = auth.currentUser
+                dialog.dismiss()
+                (activity as RegistrationActivity).startFriendsActivity()
+                Log.i("@ani", "User Registered Successfully ${user?.displayName} ${user?.phoneNumber} ")
+            }else {
+                dialog.dismiss()
+            }
+        }
     }
 
     companion object {
@@ -82,5 +106,16 @@ class RegistrationFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    private fun progressAlert() : Dialog {
+        val dialog = AlertDialog.Builder(activity as RegistrationActivity)
+            .setTitle("Registration")
+            .setMessage("User Registration in Progress")
+            .create()
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.show()
+
+        return dialog
     }
 }

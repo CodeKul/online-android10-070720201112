@@ -15,7 +15,12 @@ class RegistrationViewModel : ViewModel() {
     val password : MutableLiveData<String> = MutableLiveData()
 
     fun onReg() {
-        Log.i("@ani", "Vm Clicked")
-        _reg.value?.plus(1)
+        Log.i("@ani", "Vm Clicked ${_reg.value}")
+        if(_reg.value != null)
+            _reg.value = _reg.value?.plus(1)
+        else _reg.value = 1
     }
+
+    fun valueOf(ld : MutableLiveData<String>) =
+        ld.value?.let { if(it.isNotEmpty())  it else "" } ?: ""
 }

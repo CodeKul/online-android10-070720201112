@@ -38,7 +38,7 @@ class RegistrationActivity : AppCompatActivity() {
             .commit()
     }
 
-    private fun startFriendsActivity() {
+    fun startFriendsActivity() {
         startActivity(Intent(this, FriendListActivity::class.java))
     }
 }
