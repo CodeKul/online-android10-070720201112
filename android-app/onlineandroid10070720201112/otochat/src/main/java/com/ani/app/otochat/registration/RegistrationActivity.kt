@@ -11,7 +11,7 @@ import com.ani.app.otochat.friends.FriendListActivity
 class RegistrationActivity : AppCompatActivity() {
 
     private val prefs: SharedPreferences by lazy {
-        getSharedPreferences("reg_prefs", MODE_PRIVATE)
+        getSharedPreferences(RegPrefs.PREFS_NAME, MODE_PRIVATE)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,4 +41,6 @@ class RegistrationActivity : AppCompatActivity() {
     fun startFriendsActivity() {
         startActivity(Intent(this, FriendListActivity::class.java))
     }
+
+    fun appPrefs() = getSharedPreferences(RegPrefs.PREFS_NAME, MODE_PRIVATE)
 }

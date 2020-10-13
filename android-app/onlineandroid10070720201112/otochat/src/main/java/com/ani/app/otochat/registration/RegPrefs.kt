@@ -17,5 +17,7 @@ class RegPrefs {
 
         private const val KEY_IS_REGISTERED = "isRegistered"
         private const val KEY_IS_LOGGED_IN = "isLoggedIn"
+
+        const val PREFS_NAME = "chat_prefs"
     }
 }

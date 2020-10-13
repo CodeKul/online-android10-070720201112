@@ -15,6 +15,7 @@ import com.ani.app.otochat.MainActivity
 import com.ani.app.otochat.R
 import com.ani.app.otochat.databinding.FragmentRegistrationBinding
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -47,7 +48,7 @@ class RegistrationFragment : Fragment() {
             param2 = it.getString(ARG_PARAM2)
         }
         auth = Firebase.auth
-
+        auth.signOut()
     }
 
     override fun onCreateView(
@@ -64,8 +65,11 @@ class RegistrationFragment : Fragment() {
             Log.i("@ani", "Registration Clicked")
 
             val currentUser = auth.currentUser
+            Log.i("@ani", "Current User DN ${currentUser?.displayName}")
             if(currentUser == null) {
                 registerUser(vm.valueOf(vm.userName), vm.valueOf(vm.password))
+            } else {
+                Log.i("@ani", "User Already Registered")
             }
             Log.i("@ani", "$currentUser")
         })
@@ -79,10 +83,13 @@ class RegistrationFragment : Fragment() {
             .addOnCompleteListener(activity as RegistrationActivity ) {
             if(it.isSuccessful) {
                 val user = auth.currentUser
+                RegPrefs.markRegistered((activity as RegistrationActivity).appPrefs())
                 dialog.dismiss()
                 (activity as RegistrationActivity).startFriendsActivity()
                 Log.i("@ani", "User Registered Successfully ${user?.displayName} ${user?.phoneNumber} ")
             }else {
+                Log.i("@ani", "Error ${it.result.toString()}")
+                Log.i("@ani","Error ------> Problem in Registering usser")
                 dialog.dismiss()
             }
         }

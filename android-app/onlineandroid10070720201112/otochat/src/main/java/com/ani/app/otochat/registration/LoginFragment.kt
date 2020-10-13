@@ -1,11 +1,23 @@
 package com.ani.app.otochat.registration
 
+import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.ani.app.otochat.R
+import com.ani.app.otochat.databinding.FragmentLoginBinding
+import com.ani.app.otochat.databinding.FragmentRegistrationBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,20 +34,70 @@ class LoginFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private val vm : RegistrationViewModel by lazy {
+        ViewModelProvider(this).get(RegistrationViewModel::class.java)
+    }
+
+    private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+        auth = Firebase.auth
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false)
+        val binding : FragmentLoginBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
+        binding.lifecycleOwner = activity // imp
+        binding.vm = vm
+
+        vm.reg.observe( viewLifecycleOwner /*imp*/, Observer {
+            val currentUser = auth.currentUser
+            Log.i("@ani", "Current User DN ${currentUser?.displayName}")
+            if(currentUser != null) {
+                loginUser(vm.valueOf(vm.userName), vm.valueOf(vm.password))
+            } else {
+                Log.i("@ani", "User Not Registered")
+            }
+            Log.i("@ani", "$currentUser")
+        })
+        
+        return binding.root
+    }
+
+    private fun loginUser(email : String, pass : String) {
+        val dialog = progressAlert()
+        auth.signInWithEmailAndPassword(email, pass)
+            .addOnCompleteListener(activity as RegistrationActivity ) {
+                if(it.isSuccessful) {
+                    val user = auth.currentUser
+                    RegPrefs.markLoggedIn((activity as RegistrationActivity).appPrefs())
+                    dialog.dismiss()
+                    (activity as RegistrationActivity).startFriendsActivity()
+                    Log.i("@ani", "User Registered Successfully ${user?.displayName} ${user?.phoneNumber} ")
+                }else {
+                    dialog.dismiss()
+                    Toast.makeText(activity, "Invalid Creds", Toast.LENGTH_LONG).show()
+                }
+            }
+    }
+
+    private fun progressAlert() : Dialog {
+        val dialog = AlertDialog.Builder(activity as RegistrationActivity)
+            .setTitle("Login")
+            .setMessage("Login Process In progress")
+            .create()
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.show()
+
+        return dialog
     }
 
     companion object {
