@@ -2,12 +2,12 @@ package com.ani.app.otochat.chat
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import co.intentservice.chatui.models.ChatMessage
 import com.ani.app.otochat.R
 import com.ani.app.otochat.registration.RegPrefs
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_chat.*
@@ -28,9 +28,9 @@ class ChatActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
-        initFirebase()
-
         val chatWith = intent.extras?.getString("chatWith") ?: "guest"
+
+        initFirebase()
 
         chatView.addMessage(
             ChatMessage(
@@ -50,10 +50,32 @@ class ChatActivity : AppCompatActivity() {
 
         chatView.setOnSentMessageListener { msg ->
            msg?.let {
-               chatView.addMessage(it)
+               val sentMsg : HashMap<String, String> = HashMap()
+               sentMsg.put("msg", it.message)
+               sentMsg.put("from", RegPrefs.myId(prefs))
+               dbRef.parent?.child(chatWith)?.child("chats")?.setValue(sentMsg)
            }
             true
         }
+        dbRef.child("chats").addValueEventListener( object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                Log.i("@ani", "Changed Value ===> ${snapshot.value}")
+                val msg = snapshot.value as HashMap<String, String>
+                if(msg.get("from") != RegPrefs.myId(prefs)) {
+                    chatView.addMessage(
+                        ChatMessage(
+                            msg.get("msg"),
+                            System.currentTimeMillis(),
+                            ChatMessage.Type.RECEIVED
+                        )
+                    )
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
     }
 
     private fun initFirebase() {
