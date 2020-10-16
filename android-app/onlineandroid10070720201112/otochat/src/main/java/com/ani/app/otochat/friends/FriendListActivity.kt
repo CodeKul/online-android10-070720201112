@@ -101,7 +101,8 @@ class FriendListActivity : AppCompatActivity() {
 
                     val frd = snapshot.value as ArrayList<Map<String, String>>
                     frd.forEach {
-                        friends.add(Friend(it.get("name") ?: "", it.get("created") ?: ""))
+                        if(it != null)
+                            friends.add(Friend(it.get("name") ?: "", it.get("created") ?: ""))
                     }
                     adapter.refreshData(friends)
                 }

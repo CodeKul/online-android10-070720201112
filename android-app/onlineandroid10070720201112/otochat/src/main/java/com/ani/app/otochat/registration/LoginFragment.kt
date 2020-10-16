@@ -94,7 +94,8 @@ class LoginFragment : Fragment() {
                     val friends = ArrayList<Friend>()
                     friends.add(
                         Friend(
-                            RegPrefs.myId( (activity as RegistrationActivity).appPrefs() ), "12.00"
+                            RegPrefs.myId(
+                                (activity as RegistrationActivity).appPrefs() ), "12.00"
                         )
                     )
 
