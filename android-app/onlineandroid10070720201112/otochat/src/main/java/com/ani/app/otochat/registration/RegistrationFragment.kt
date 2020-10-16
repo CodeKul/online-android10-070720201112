@@ -2,6 +2,7 @@ package com.ani.app.otochat.registration
 
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -18,7 +19,11 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,7 +39,6 @@ class RegistrationFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-
     private val vm : RegistrationViewModel by lazy {
         ViewModelProvider(this).get(RegistrationViewModel::class.java)
     }
@@ -43,6 +47,7 @@ class RegistrationFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
@@ -84,8 +89,13 @@ class RegistrationFragment : Fragment() {
             if(it.isSuccessful) {
                 val user = auth.currentUser
                 RegPrefs.markRegistered((activity as RegistrationActivity).appPrefs())
+                RegPrefs.storeMyId(
+                    (activity as RegistrationActivity).appPrefs(),
+                   UUID.randomUUID().toString()
+                )
                 dialog.dismiss()
-                (activity as RegistrationActivity).startFriendsActivity()
+                (activity as RegistrationActivity).loadFragment(LoginFragment.newInstance("", ""))
+
                 Log.i("@ani", "User Registered Successfully ${user?.displayName} ${user?.phoneNumber} ")
             }else {
                 Log.i("@ani", "Error ${it.result.toString()}")

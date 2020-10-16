@@ -1,6 +1,7 @@
 package com.ani.app.otochat.registration
 
 import android.app.Dialog
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,14 +10,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.ani.app.otochat.R
 import com.ani.app.otochat.databinding.FragmentLoginBinding
 import com.ani.app.otochat.databinding.FragmentRegistrationBinding
+import com.ani.app.otochat.friends.Friend
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
 // TODO: Rename parameter arguments, choose names that match
@@ -39,6 +45,8 @@ class LoginFragment : Fragment() {
     }
 
     private lateinit var auth: FirebaseAuth
+    private lateinit var fbd: FirebaseDatabase
+    private lateinit var dbRef: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +56,8 @@ class LoginFragment : Fragment() {
         }
 
         auth = Firebase.auth
+        fbd = Firebase.database
+        dbRef = fbd.getReference(RegPrefs.myId( (activity as RegistrationActivity).appPrefs() ))
     }
 
     override fun onCreateView(
@@ -80,6 +90,18 @@ class LoginFragment : Fragment() {
                     val user = auth.currentUser
                     RegPrefs.markLoggedIn((activity as RegistrationActivity).appPrefs())
                     dialog.dismiss()
+
+                    val friends = ArrayList<Friend>()
+                    friends.add(
+                        Friend(
+                            RegPrefs.myId( (activity as RegistrationActivity).appPrefs() ), "12.00"
+                        )
+                    )
+
+                    val map = HashMap<String, List<Friend>>()
+                    map.put("friends", friends)
+                    dbRef.setValue(map)
+
                     (activity as RegistrationActivity).startFriendsActivity()
                     Log.i("@ani", "User Registered Successfully ${user?.displayName} ${user?.phoneNumber} ")
                 }else {
